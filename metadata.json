@@ -1,0 +1,5 @@
+{
+  "name": "Neuro-DSA Tracker",
+  "description": "A neuroscience-backed DSA learning tool featuring Active Recall, Spaced Repetition, Interleaving, and Dual Coding support.",
+  "requestFramePermissions": []
+}
