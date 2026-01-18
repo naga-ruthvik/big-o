@@ -12,16 +12,6 @@ Welcome to **BigO**, a "Vibe Coded" project designed helping you master Data Str
 - **Mistake Journal**: Log and review your pitfalls.
 - **Pattern Quiz**: Test your pattern recognition skills.
 - **Desktop Ready**: Runs as a standalone Electron app on Windows/Mac.
-
-## 📸 App Screenshots
-| Dashboard | Mental Models |
-|:---:|:---:|
-| ![Dashboard](screenshots/dashboard.png) | ![Mental Models](screenshots/mental-models.png) |
-
-| Quiz Mode | Mistake Journal |
-|:---:|:---:|
-| ![Quiz](screenshots/quiz.png) | ![Journal](screenshots/journal.png) |
-
 ---
 
 ## 🤖 AI Features: How to Use
