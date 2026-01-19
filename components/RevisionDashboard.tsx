@@ -155,28 +155,36 @@ const RevisionDashboard: React.FC<RevisionDashboardProps> = ({ problems, onHealT
                     </h3>
 
                     <div className="w-full h-[300px] relative">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
-                                <PolarGrid stroke="#334155" />
-                                <PolarAngleAxis
-                                    dataKey="subject"
-                                    tick={{ fill: '#94a3b8', fontSize: 10 }}
-                                />
-                                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                                <Radar
-                                    name="Mastery Score"
-                                    dataKey="A"
-                                    stroke="#A855F7"
-                                    strokeWidth={3}
-                                    fill="#A855F7"
-                                    fillOpacity={0.4}
-                                />
-                                <Tooltip
-                                    contentStyle={{ backgroundColor: '#1E293B', borderColor: '#334155', color: '#fff' }}
-                                    itemStyle={{ color: '#A855F7' }}
-                                />
-                            </RadarChart>
-                        </ResponsiveContainer>
+                        {radarData.some(d => d.A > 0) ? (
+                            <ResponsiveContainer width="100%" height="100%">
+                                <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
+                                    <PolarGrid stroke="#334155" />
+                                    <PolarAngleAxis
+                                        dataKey="subject"
+                                        tick={{ fill: '#94a3b8', fontSize: 10 }}
+                                    />
+                                    <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+                                    <Radar
+                                        name="Mastery Score"
+                                        dataKey="A"
+                                        stroke="#A855F7"
+                                        strokeWidth={3}
+                                        fill="#A855F7"
+                                        fillOpacity={0.4}
+                                    />
+                                    <Tooltip
+                                        contentStyle={{ backgroundColor: '#1E293B', borderColor: '#334155', color: '#fff' }}
+                                        itemStyle={{ color: '#A855F7' }}
+                                    />
+                                </RadarChart>
+                            </ResponsiveContainer>
+                        ) : (
+                            <div className="flex flex-col items-center justify-center h-full text-gray-500">
+                                <TrendingUp size={32} className="mb-2 opacity-50" />
+                                <p className="text-sm">Not enough data for Skill Radar.</p>
+                                <p className="text-xs mt-1 text-gray-600">Solve & review problems to build your profile.</p>
+                            </div>
+                        )}
                     </div>
                 </div>
 

@@ -9,7 +9,7 @@ import RevisionDashboard from './components/RevisionDashboard';
 import PatternQuiz from './components/PatternQuiz';
 import MistakeJournal from './components/MistakeJournal';
 import ReviewCalendar from './components/ReviewCalendar';
-import { Plus, Filter, LayoutGrid, BookOpen, Search, Activity, Download, Database, Zap, AlertCircle, Calendar, NotebookPen, X, Save, Settings, Eye, EyeOff } from 'lucide-react';
+import { Plus, Filter, LayoutGrid, BookOpen, Search, Activity, Download, Database, Zap, AlertCircle, Calendar, NotebookPen, X, Save, Settings, Eye, EyeOff, Trash2 } from 'lucide-react';
 import { calculateNextReview, getNextReviewDate } from './utils/sm2';
 import { getOllamaModels } from './utils/aiService';
 import { DEMO_DATA } from './data/demoData';
@@ -31,6 +31,10 @@ const App: React.FC = () => {
         ollamaUrl: 'http://localhost:11434',
         ollamaModel: 'llama3'
     });
+
+    // Clear Data Modal State
+    const [isClearDataModalOpen, setIsClearDataModalOpen] = useState(false);
+    const [clearDataInput, setClearDataInput] = useState('');
 
     // Manual Journal Entry State
     const [isJournalModalOpen, setIsJournalModalOpen] = useState(false);
@@ -88,6 +92,17 @@ const App: React.FC = () => {
             setInterleaveMode(false);
 
             setView('dashboard');
+        }
+    };
+
+    const handleClearAllData = () => {
+        if (clearDataInput === 'DELETE') {
+            setProblems([]);
+            setLastBackupDate(0);
+            setView('dashboard');
+            setIsClearDataModalOpen(false);
+            setClearDataInput('');
+            alert("All data has been wiped.");
         }
     };
 
@@ -358,6 +373,13 @@ const App: React.FC = () => {
                                 title="Configure AI Provider"
                             >
                                 <Settings size={14} /> AI Config
+                            </button>
+                            <button
+                                onClick={() => setIsClearDataModalOpen(true)}
+                                className="text-xs text-accent-coral/70 hover:text-accent-coral flex items-center gap-1 ml-2 transition-colors"
+                                title="Clear All Data (Hard Reset)"
+                            >
+                                <Trash2 size={14} /> Clear Data
                             </button>
                         </div>
                     </div>
@@ -732,6 +754,63 @@ const App: React.FC = () => {
                 </div>
             )
             }
+
+            {/* Clear Data Confirmation Modal */}
+            {isClearDataModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
+                    <div className="bg-navy-900 border border-red-500/30 rounded-2xl p-6 w-full max-w-md shadow-2xl relative">
+                        <button onClick={() => { setIsClearDataModalOpen(false); setClearDataInput(''); }} className="absolute top-4 right-4 text-gray-400 hover:text-white">
+                            <X size={20} />
+                        </button>
+
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center text-red-500">
+                                <AlertCircle size={20} />
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-bold text-white">Clear All Data</h2>
+                                <p className="text-sm text-gray-400">This action cannot be undone!</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div className="bg-red-500/10 p-4 rounded-lg border border-red-500/20">
+                                <p className="text-sm text-gray-300 mb-2">
+                                    You are about to permanently delete:
+                                </p>
+                                <ul className="text-xs text-gray-400 space-y-1 ml-4">
+                                    <li>• All {problems.length} problem(s)</li>
+                                    <li>• All review history</li>
+                                    <li>• All mental models</li>
+                                    <li>• All progress data</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">
+                                    Type "DELETE" to confirm
+                                </label>
+                                <input
+                                    type="text"
+                                    className="w-full bg-navy-950 border border-red-500/30 rounded-xl p-3 text-white focus:ring-2 focus:ring-red-500 outline-none"
+                                    placeholder="DELETE"
+                                    value={clearDataInput}
+                                    onChange={(e) => setClearDataInput(e.target.value)}
+                                    onKeyPress={(e) => e.key === 'Enter' && handleClearAllData()}
+                                />
+                            </div>
+
+                            <button
+                                onClick={handleClearAllData}
+                                disabled={clearDataInput !== 'DELETE'}
+                                className="w-full py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition-all shadow-lg shadow-red-900/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            >
+                                <Trash2 size={18} /> Clear All Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div >
     );
 };

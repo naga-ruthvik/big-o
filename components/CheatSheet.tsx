@@ -154,9 +154,9 @@ const MentalModelDashboard: React.FC<CheatSheetProps> = ({ problems, aiSettings 
                                     key={i}
                                     x1={edge!.x1} y1={edge!.y1}
                                     x2={edge!.x2} y2={edge!.y2}
-                                    stroke={edge!.isActive ? "#A855F7" : "#334155"}
+                                    stroke={edge!.isActive ? "#A855F7" : "#475569"}
                                     strokeWidth={edge!.isActive ? "1.5" : "1"}
-                                    strokeOpacity={edge!.isActive ? "0.6" : "0.3"}
+                                    strokeOpacity={edge!.isActive ? "0.6" : "0.5"}
                                     strokeDasharray={edge!.isActive ? "0" : "4"}
                                     className={edge!.isActive ? "animate-pulse" : ""}
                                 />
